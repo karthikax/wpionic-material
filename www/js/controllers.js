@@ -41,7 +41,7 @@ $scope.doLogin = function() {
 };
 })
 
-.controller('PostsCtrl', function($scope) {
+.controller('PostsCtrl', function($scope, $timeout, ionicMaterialMotion, ionicMaterialInk) {
 	$scope.posts = [
 	{ title: 'Post1', id: 1 },
 	{ title: 'Post2', id: 2 },
@@ -50,7 +50,24 @@ $scope.doLogin = function() {
 	{ title: 'Post4', id: 5 },
 	{ title: 'Post5', id: 6 }
 	];
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
 })
 
-.controller('PostCtrl', function($scope, $stateParams) {
+.controller('PostCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
 });
