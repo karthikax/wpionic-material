@@ -40,21 +40,38 @@ $scope.doLogin = function() {
 
 .controller('PostsCtrl', function(dataFactory, $scope, $timeout, ionicMaterialMotion, ionicMaterialInk) {
 
-	$scope.loadMore = function() {
-		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3').then(function(data) {
-			var list = $scope.posts;
-			$scope.posts = list.concat(data);
-			console.log(data);
+	$scope.posts = [];
+	$scope.page = 1;
+
+	$scope.morePosts = function() {
+		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3&page=' + $scope.page).then(function(data) {
+			$scope.posts = $scope.posts.concat(data);
 
 			$timeout(function() {
 				ionicMaterialMotion.fadeSlideIn({
 					selector: '.animate-fade-slide-in .item'
 				});
 			}, 200);
+
+			$scope.page++;
+
+			$scope.$broadcast('scroll.infiniteScrollComplete');
 		});
 	}
 
-	$scope.posts = [];
+	$scope.refreshPosts = function() {
+		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3').then(function(data) {
+			$scope.posts = data;
+
+			$timeout(function() {
+				ionicMaterialMotion.fadeSlideIn({
+					selector: '.animate-fade-slide-in .item'
+				});
+			}, 200);
+
+			$scope.$broadcast('scroll.refreshComplete');
+		});
+	}
 
     // Set Ink
     ionicMaterialInk.displayEffect();
