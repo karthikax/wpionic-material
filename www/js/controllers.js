@@ -40,16 +40,21 @@ $scope.doLogin = function() {
 
 .controller('PostsCtrl', function(dataFactory, $scope, $timeout, ionicMaterialMotion, ionicMaterialInk) {
 
-	dataFactory.httpRequest('wp-json/wp/v2/posts').then(function(data) {
-		console.log(data);
-		$scope.posts = data;
+	$scope.loadMore = function() {
+		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3').then(function(data) {
+			var list = $scope.posts;
+			$scope.posts = list.concat(data);
+			console.log(data);
 
-		$timeout(function() {
-			ionicMaterialMotion.fadeSlideIn({
-				selector: '.animate-fade-slide-in .item'
-			});
-		}, 200);
-	});
+			$timeout(function() {
+				ionicMaterialMotion.fadeSlideIn({
+					selector: '.animate-fade-slide-in .item'
+				});
+			}, 200);
+		});
+	}
+
+	$scope.posts = [];
 
     // Set Ink
     ionicMaterialInk.displayEffect();

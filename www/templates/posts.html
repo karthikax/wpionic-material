@@ -3,7 +3,7 @@
 		<div ng-repeat="post in posts" href="#/app/posts/{{post.id}}" class="item card-item">
 			<div class="card stable-bg ink ink-dark">
 				<div class="item item-avatar item-text-wrap">
-					<span class="avatar"></span>
+					<span class="avatar"><img ng-src="{{post.thumbnail_url}}"></span>
 					<strong>{{post.title.rendered}}</strong>
 					<div class="card-footer pull-right">
 						<span>
@@ -14,5 +14,9 @@
 				</div>
 			</div>
 		</div>
+		<ion-infinite-scroll
+			on-infinite="loadMore()"
+			distance="1%">
+		</ion-infinite-scroll>
 	</ion-content>
 </ion-view>
