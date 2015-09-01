@@ -6,7 +6,7 @@ $scope.isExpanded = false;
 $scope.loginData = {};
 
 $scope.setExpanded = function(bool) {
-    $scope.isExpanded = bool;
+	$scope.isExpanded = bool;
 };
 
 // Create the login modal that we will use later
@@ -53,6 +53,7 @@ $scope.doLogin = function() {
 				});
 			}, 200);
 
+			ionicMaterialInk.displayEffect();
 			$scope.page++;
 
 			$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -69,21 +70,20 @@ $scope.doLogin = function() {
 				});
 			}, 200);
 
+			ionicMaterialInk.displayEffect();
+
 			$scope.$broadcast('scroll.refreshComplete');
 		});
 	}
-
-    // Set Ink
-    ionicMaterialInk.displayEffect();
 })
 
 .controller('PostCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
-    $timeout(function() {
-        ionicMaterialMotion.fadeSlideInRight({
-            startVelocity: 3000
-        });
-    }, 700);
+	$timeout(function() {
+		ionicMaterialMotion.fadeSlideInRight({
+			startVelocity: 3000
+		});
+	}, 700);
 
-    // Set Ink
-    ionicMaterialInk.displayEffect();
+	// Set Ink
+	ionicMaterialInk.displayEffect();
 });
