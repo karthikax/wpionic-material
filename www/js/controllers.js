@@ -38,21 +38,18 @@ $scope.doLogin = function() {
 };
 })
 
-.controller('PostsCtrl', function($scope, $timeout, ionicMaterialMotion, ionicMaterialInk) {
-	$scope.posts = [
-	{ title: 'Post1', id: 1 },
-	{ title: 'Post2', id: 2 },
-	{ title: 'Post3', id: 3 },
-	{ title: 'Post3', id: 4 },
-	{ title: 'Post4', id: 5 },
-	{ title: 'Post5', id: 6 }
-	];
+.controller('PostsCtrl', function(dataFactory, $scope, $timeout, ionicMaterialMotion, ionicMaterialInk) {
 
-    $timeout(function() {
-        ionicMaterialMotion.fadeSlideInRight({
-            startVelocity: 3000
-        });
-    }, 700);
+	dataFactory.httpRequest('wp-json/wp/v2/posts').then(function(data) {
+		console.log(data);
+		$scope.posts = data;
+
+		$timeout(function() {
+			ionicMaterialMotion.fadeSlideIn({
+				selector: '.animate-fade-slide-in .item'
+			});
+		}, 200);
+	});
 
     // Set Ink
     ionicMaterialInk.displayEffect();

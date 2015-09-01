@@ -1,10 +1,12 @@
 // Ionic Starter App
 
+var server = 'http://demo.wp-api.org/';
+
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'ionMdInput'])
+var starter = angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'ionMdInput'])
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
@@ -71,4 +73,48 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'io
 	});
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/app/posts');
+});
+
+
+starter.factory('dataFactory', function($http) {
+  var myService = {
+    httpRequest: function(url,method,params,dataPost,upload) {
+      var passParameters = {};
+      passParameters.url = server + url;
+      
+      if (typeof method == 'undefined'){
+        passParameters.method = 'GET';
+      }else{
+        passParameters.method = method;
+      }
+
+      if (typeof params != 'undefined'){
+        passParameters.params = params;
+      }
+
+      if (typeof dataPost != 'undefined'){
+        passParameters.data = dataPost;
+      }
+
+      if (typeof upload != 'undefined'){
+         passParameters.upload = upload;
+      }
+
+      var promise = $http(passParameters).then(function (response) {
+        if(typeof response.data == 'string' && response.data != 1){
+		  //Give Notification
+          return false;
+        }
+        return response.data;
+      },function (response) {
+        if ( response.status == 401 ){
+          //Give Notification
+        } else{
+          //Give Notification
+        }
+      });
+      return promise;
+    }
+  };
+  return myService;
 });
