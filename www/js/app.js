@@ -45,7 +45,7 @@ var starter = angular.module('starter', ['ionic', 'starter.controllers', 'ionic-
 	})
 
 	.state('app.single', {
-		url: '/posts/:postId',
+		url: '/post',
 		views: {
 			'menuContent': {
 				templateUrl: 'templates/post.html',
@@ -77,44 +77,59 @@ var starter = angular.module('starter', ['ionic', 'starter.controllers', 'ionic-
 
 
 starter.factory('dataFactory', function($http) {
-  var myService = {
-    httpRequest: function(url,method,params,dataPost,upload) {
-      var passParameters = {};
-      passParameters.url = server + url;
-      
-      if (typeof method == 'undefined'){
-        passParameters.method = 'GET';
-      }else{
-        passParameters.method = method;
-      }
+	var myService = {
+		httpRequest: function(url,method,params,dataPost,upload) {
+			var passParameters = {};
+			passParameters.url = server + url;
 
-      if (typeof params != 'undefined'){
-        passParameters.params = params;
-      }
+			if (typeof method == 'undefined'){
+				passParameters.method = 'GET';
+			}else{
+				passParameters.method = method;
+			}
 
-      if (typeof dataPost != 'undefined'){
-        passParameters.data = dataPost;
-      }
+			if (typeof params != 'undefined'){
+				passParameters.params = params;
+			}
 
-      if (typeof upload != 'undefined'){
-         passParameters.upload = upload;
-      }
+			if (typeof dataPost != 'undefined'){
+				passParameters.data = dataPost;
+			}
 
-      var promise = $http(passParameters).then(function (response) {
-        if(typeof response.data == 'string' && response.data != 1){
-		  //Give Notification
-          return false;
-        }
-        return response.data;
-      },function (response) {
-        if ( response.status == 401 ){
-          //Give Notification
-        } else{
-          //Give Notification
-        }
-      });
-      return promise;
-    }
-  };
-  return myService;
+			if (typeof upload != 'undefined'){
+				passParameters.upload = upload;
+			}
+
+			var promise = $http(passParameters).then(function (response) {
+				if(typeof response.data == 'string' && response.data != 1){
+					//Give Notification
+					return false;
+				}
+				return response.data;
+			},function (response) {
+				if ( response.status == 401 ){
+					//Give Notification
+				} else{
+					//Give Notification
+				}
+			});
+			return promise;
+		}
+	};
+	return myService;
+});
+
+starter.factory('saveData', function() {
+	var savedData = {}
+	function set(data) {
+		savedData = data;
+	}
+	function get() {
+		return savedData;
+	}
+
+	return {
+		set: set,
+		get: get
+	}
 });

@@ -1,5 +1,11 @@
-<ion-view view-title="Post">
-  <ion-content>
-    <h1>Single Post</h1>
-  </ion-content>
+<ion-view view-title="{{post.title.rendered}}">
+	<ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in">
+		<ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="refreshPost()">
+		</ion-refresher>
+		<div class="item">
+			<div class="content" ng-bind-html="post.content.rendered"></div>
+		</div>
+	</ion-content>
 </ion-view>

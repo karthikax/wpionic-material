@@ -2,49 +2,46 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-$scope.isExpanded = false;
-$scope.loginData = {};
+	$scope.isExpanded = false;
+	$scope.loginData = {};
 
-$scope.setExpanded = function(bool) {
-	$scope.isExpanded = bool;
-};
+	$scope.setExpanded = function(bool) {
+		$scope.isExpanded = bool;
+	};
 
-// Create the login modal that we will use later
-$ionicModal.fromTemplateUrl('templates/login.html', {
-	scope: $scope
-}).then(function(modal) {
-	$scope.modal = modal;
-});
+	// Create the login modal that we will use later
+	$ionicModal.fromTemplateUrl('templates/login.html', {
+		scope: $scope
+	}).then(function(modal) {
+		$scope.modal = modal;
+	});
 
-// Triggered in the login modal to close it
-$scope.hideModal = function() {
-	$scope.modal.hide();
-};
+	// Triggered in the login modal to close it
+	$scope.hideModal = function() {
+		$scope.modal.hide();
+	};
 
-// Open the login modal
-$scope.showModal = function() {
-	$scope.modal.show();
-};
+	// Open the login modal
+	$scope.showModal = function() {
+		$scope.modal.show();
+	};
 
-// Perform the login action when the user submits the login form
-$scope.doLogin = function() {
-	console.log('Doing login', $scope.loginData);
+	// Perform the login action when the user submits the login form
+	$scope.doLogin = function() {
+		console.log('Doing login', $scope.loginData);
 
-	// Simulate a login delay. Remove this and replace with your login
-	// code if using a login system
-	$timeout(function() {
-		$scope.hideModal();
-	}, 1000);
-};
+		// Simulate a login delay. Remove this and replace with your login
+		// code if using a login system
+		$timeout(function() {
+			$scope.hideModal();
+		}, 1000);
+	};
 })
 
-.controller('PostsCtrl', function(dataFactory, $scope, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+.controller('PostsCtrl', function(dataFactory, saveData, $scope, $state, $timeout, ionicMaterialMotion, ionicMaterialInk) {
 
 	$scope.posts = [];
 	$scope.page = 1;
-	$scope.views = {};
-
-	$scope.views.list = true;
 
 	$scope.morePosts = function() {
 		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3&page=' + $scope.page).then(function(data) {
@@ -79,9 +76,27 @@ $scope.doLogin = function() {
 		});
 	}
 
+	$scope.single = function(id){
+		saveData.set($scope.posts[id]);
+		$state.go('app.single');
+	}
+})
+
+.controller('PostCtrl', function(dataFactory, saveData, $scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+
+	$scope.post = saveData.get();
+
+	$timeout(function() {
+		ionicMaterialMotion.fadeSlideIn({
+			selector: '.animate-fade-slide-in .item'
+		});
+	}, 200);
+
+	ionicMaterialInk.displayEffect();
+
 	$scope.refreshPost = function() {
-		dataFactory.httpRequest('wp-json/wp/v2/posts/' + $scope.singlePost.id).then(function(data) {
-			$scope.singlePost = data;
+		dataFactory.httpRequest('wp-json/wp/v2/posts/' + $scope.post.id).then(function(data) {
+			$scope.post = data;
 
 			$timeout(function() {
 				ionicMaterialMotion.fadeSlideIn({
@@ -94,26 +109,4 @@ $scope.doLogin = function() {
 			$scope.$broadcast('scroll.refreshComplete');
 		});
 	}
-
-	$scope.single = function(id){
-		$scope.singlePost = $scope.posts[id];
-		$scope.changeView('single');
-	}
-
-	$scope.changeView = function(view){
-		$scope.views.list = false;
-		$scope.views.single = false;
-		$scope.views[view] = true;
-	}
-})
-
-.controller('PostCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
-	$timeout(function() {
-		ionicMaterialMotion.fadeSlideInRight({
-			startVelocity: 3000
-		});
-	}, 700);
-
-	// Set Ink
-	ionicMaterialInk.displayEffect();
 });

@@ -1,5 +1,5 @@
 <ion-view view-title="Posts">
-	<ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-show="views.list">
+	<ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in">
 		<ion-refresher
 			pulling-text="Pull to refresh..."
 			on-refresh="refreshPosts()">
@@ -22,15 +22,5 @@
 			on-infinite="morePosts()"
 			distance="1%">
 		</ion-infinite-scroll>
-	</ion-content>
-
-	<ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-show="views.single">
-		<ion-refresher
-			pulling-text="Pull to refresh..."
-			on-refresh="refreshPost()">
-		</ion-refresher>
-		<div class="item">
-			<div class="content" ng-bind-html="singlePost.content.rendered"></div>
-		</div>
 	</ion-content>
 </ion-view>
