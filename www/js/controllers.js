@@ -42,6 +42,9 @@ $scope.doLogin = function() {
 
 	$scope.posts = [];
 	$scope.page = 1;
+	$scope.views = {};
+
+	$scope.views.list = true;
 
 	$scope.morePosts = function() {
 		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3&page=' + $scope.page).then(function(data) {
@@ -74,6 +77,15 @@ $scope.doLogin = function() {
 
 			$scope.$broadcast('scroll.refreshComplete');
 		});
+	}
+
+	$scope.single = function(id){
+	}
+
+	$scope.changeView = function(view){
+		$scope.views.list = false;
+		$scope.views.single = false;
+		$scope.views[view] = true;
 	}
 })
 
