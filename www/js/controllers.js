@@ -79,7 +79,25 @@ $scope.doLogin = function() {
 		});
 	}
 
+	$scope.refreshPost = function() {
+		dataFactory.httpRequest('wp-json/wp/v2/posts/' + $scope.singlePost.id).then(function(data) {
+			$scope.singlePost = data;
+
+			$timeout(function() {
+				ionicMaterialMotion.fadeSlideIn({
+					selector: '.animate-fade-slide-in .item'
+				});
+			}, 200);
+
+			ionicMaterialInk.displayEffect();
+
+			$scope.$broadcast('scroll.refreshComplete');
+		});
+	}
+
 	$scope.single = function(id){
+		$scope.singlePost = $scope.posts[id];
+		$scope.changeView('single');
 	}
 
 	$scope.changeView = function(view){
