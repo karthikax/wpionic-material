@@ -109,4 +109,25 @@ angular.module('starter.controllers', [])
 			$scope.$broadcast('scroll.refreshComplete');
 		});
 	}
+})
+
+.controller('SearchCtrl', function(dataFactory, $scope, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+
+	$scope.posts = [];
+	$scope.page = 1;
+
+	$scope.search = function(){
+		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3&s=').then(function(data) {
+			$scope.posts = $scope.posts.concat(data);
+
+			$timeout(function() {
+				ionicMaterialMotion.fadeSlideIn({
+					selector: '.animate-fade-slide-in .item'
+				});
+			}, 200);
+
+			ionicMaterialInk.displayEffect();
+			$scope.page++;
+		});
+	}
 });
