@@ -115,10 +115,11 @@ angular.module('starter.controllers', [])
 
 	$scope.posts = [];
 	$scope.page = 1;
+	$scope.form = {};
 
 	$scope.search = function(){
-		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3&s=').then(function(data) {
-			$scope.posts = $scope.posts.concat(data);
+		dataFactory.httpRequest('wp-json/wp/v2/posts?per_page=3&s=' + $scope.form.search).then(function(data) {
+			$scope.posts = data;
 
 			$timeout(function() {
 				ionicMaterialMotion.fadeSlideIn({
