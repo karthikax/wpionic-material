@@ -2,6 +2,8 @@
 
 A mobile app that uses the Ionic Framework with Material Design, and integrates with WordPress.
 
+## Wordpress Ionic Material Design App
+
 Features:
 
 - Gets posts from Wordpress
