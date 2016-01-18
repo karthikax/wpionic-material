@@ -13,7 +13,7 @@ Features:
 
 ## Demo
 
-Coming Soon
+[View wpionic-material Demo](http://kart.tk/wpionic-material-demo/)
 
 ## How to setup
 
