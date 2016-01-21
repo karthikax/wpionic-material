@@ -15,6 +15,10 @@ Features:
 
 [View wpionic-material Demo](http://kart.tk/wpionic-material-demo/)
 
+## Screenshot
+
+![wpionic screenshot](/screenshots/s1.jpg)
+
 ## How to setup
 
 1. Install [wp-api](https://wordpress.org/plugins/json-rest-api/) plugin to your wordpress site.
